@@ -185,6 +185,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>ir_code</ItemText>
         </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>reg_data[20]</ItemText>
+        </Ww>
       </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>
