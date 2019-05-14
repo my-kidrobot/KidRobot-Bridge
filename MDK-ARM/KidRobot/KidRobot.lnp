@@ -1,0 +1,26 @@
+--cpu Cortex-M0
+"kidrobot\startup_stm32f030x6.o"
+"kidrobot\main.o"
+"kidrobot\stm32f0xx_it.o"
+"kidrobot\stm32f0xx_hal_msp.o"
+"kidrobot\stm32f0xx_hal_adc.o"
+"kidrobot\stm32f0xx_hal_adc_ex.o"
+"kidrobot\stm32f0xx_hal_i2c.o"
+"kidrobot\stm32f0xx_hal_i2c_ex.o"
+"kidrobot\stm32f0xx_hal_tim.o"
+"kidrobot\stm32f0xx_hal_tim_ex.o"
+"kidrobot\stm32f0xx_hal_rcc.o"
+"kidrobot\stm32f0xx_hal_rcc_ex.o"
+"kidrobot\stm32f0xx_hal.o"
+"kidrobot\stm32f0xx_hal_gpio.o"
+"kidrobot\stm32f0xx_hal_dma.o"
+"kidrobot\stm32f0xx_hal_cortex.o"
+"kidrobot\stm32f0xx_hal_pwr.o"
+"kidrobot\stm32f0xx_hal_pwr_ex.o"
+"kidrobot\stm32f0xx_hal_flash.o"
+"kidrobot\stm32f0xx_hal_flash_ex.o"
+"kidrobot\system_stm32f0xx.o"
+--library_type=microlib --strict --scatter "KidRobot\KidRobot.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "KidRobot.map" -o KidRobot\KidRobot.axf
