@@ -791,11 +791,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : HC_SR04p_Echo_Pin IR_Pin */
-  GPIO_InitStruct.Pin = HC_SR04p_Echo_Pin|IR_Pin;
+  /*Configure GPIO pin : HC_SR04p_Echo_Pin */
+  GPIO_InitStruct.Pin = HC_SR04p_Echo_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(HC_SR04p_Echo_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : MOTOR1_A_Pin MOTOR1_B_Pin */
   GPIO_InitStruct.Pin = MOTOR1_A_Pin|MOTOR1_B_Pin;
@@ -803,6 +803,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : IR_Pin */
+  GPIO_InitStruct.Pin = IR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(IR_GPIO_Port, &GPIO_InitStruct);
 
 }
 
