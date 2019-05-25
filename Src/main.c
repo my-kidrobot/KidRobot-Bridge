@@ -192,16 +192,18 @@ int main(void)
 	
 	// Start timer
 	HAL_TIM_Base_Start_IT(&htim3);
-	
-	// Reset WS2812B
-	memset(ws2812b_data_color, 0, sizeof ws2812b_data_color);
-	ws2812b_update();
-	
+
 	// Clean reg
 	memset(reg_data, 0, sizeof reg_data);
 	
 	// Start ADC DMA
 	HAL_ADC_Start_DMA(&hadc, (uint32_t*)adc_value, 2);
+	
+	HAL_Delay(100);
+	
+	// Reset WS2812B
+	memset(ws2812b_data_color, 0, sizeof ws2812b_data_color);
+	// ws2812b_update();
   /* USER CODE END 2 */
 
   /* Infinite loop */
