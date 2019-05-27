@@ -320,12 +320,10 @@ int main(void)
 				continue;
 			}
 			
-			ir_code = 0;
-			
 			// Start ... HIGH
 			start_time = microsec;
 			while(HAL_GPIO_ReadPin(IR_GPIO_Port, IR_Pin) == 1) {
-				if ((microsec - start_time) > 5000) { // over 5mS
+				if ((microsec - start_time) > 8000) { // over 8mS
 					err = 1;
 					break;
 				}
@@ -336,43 +334,47 @@ int main(void)
 				continue;
 			}
 			
-			// loop data 48 bit
-			for (int i=0;i<48;i++) {
-				start_time = microsec;
-			  while(HAL_GPIO_ReadPin(IR_GPIO_Port, IR_Pin) == 0) {
-				  if ((microsec - start_time) > 3000) { // over 3mS
-					  err = 1;
-					  break;
-				  }
-			  }
-			
-			  if (err) {
-				  wait_time = microsec;
-				  break;
-			  }
+			if ((microsec - start_time) > 3000) {
+				ir_code = 0;
 				
-				start_time = microsec;
-			  while(HAL_GPIO_ReadPin(IR_GPIO_Port, IR_Pin) == 1) {
-				  if ((microsec - start_time) > 5000) { // over 5mS
-					  err = 1;
-					  break;
-				  }
-		  	}
-			
-			  if (err) {
-				  HAL_Delay(100); // delay 100mS
-				  break;
-			  }
+				// loop data 32 bit
+				for (int i=0;i<32;i++) {
+					start_time = microsec;
+					while(HAL_GPIO_ReadPin(IR_GPIO_Port, IR_Pin) == 0) {
+						if ((microsec - start_time) > 3000) { // over 3mS
+							err = 1;
+							break;
+						}
+					}
 				
-				if ((microsec - start_time) > 1000) { // if over 1000uS
-					ir_code |= (1UL << (47-i));   // write 1
-				} else {
-					ir_code &= ~(1UL << (47-i));  // write 0
+					if (err) {
+						wait_time = microsec;
+						break;
+					}
+					
+					start_time = microsec;
+					while(HAL_GPIO_ReadPin(IR_GPIO_Port, IR_Pin) == 1) {
+						if ((microsec - start_time) > 5000) { // over 5mS
+							err = 1;
+							break;
+						}
+					}
+				
+					if (err) {
+						HAL_Delay(100); // delay 100mS
+						break;
+					}
+					
+					if ((microsec - start_time) > 1000) { // if over 1000uS
+						ir_code |= (1UL << (31-i));   // write 1
+					} else {
+						ir_code &= ~(1UL << (31-i));  // write 0
+					}
 				}
-		  }
 			
-			if (err) {
-				continue;
+				if (err) {
+					continue;
+				}
 			}
 			
 			// Wait LOW of END
@@ -390,20 +392,72 @@ int main(void)
 			}
 			
 			switch(ir_code) {
-				case 0x1002c2d: 
+				case 0xff18e7: 
 					reg_data[20] = 'F';
 				  break;
 				
-				case 0x100acad: 
+				case 0xff4ab5: 
 					reg_data[20] = 'B';
 				  break;
 				
-				case 0x1008485: 
+				case 0xff10ef: 
 					reg_data[20] = 'L';
 				  break;
 				
-				case 0x1000405: 
+				case 0xff5aa5: 
 					reg_data[20] = 'R';
+				  break;
+				
+				case 0xffa25d: 
+					reg_data[20] = '1';
+				  break;
+				
+				case 0xff629d: 
+					reg_data[20] = '2';
+				  break;
+				
+				case 0xffe21d: 
+					reg_data[20] = '3';
+				  break;
+				
+				case 0xff22dd: 
+					reg_data[20] = '4';
+				  break;
+				
+				case 0xff02fd: 
+					reg_data[20] = '5';
+				  break;
+				
+				case 0xffc23d: 
+					reg_data[20] = '6';
+				  break;
+				
+				case 0xffe01f: 
+					reg_data[20] = '7';
+				  break;
+				
+				case 0xffa857: 
+					reg_data[20] = '8';
+				  break;
+				
+				case 0xff906f: 
+					reg_data[20] = '9';
+				  break;
+				
+				case 0xff6897: 
+					reg_data[20] = '*';
+				  break;
+				
+				case 0xff9867: 
+					reg_data[20] = '0';
+				  break;
+				
+				case 0xffb04f: 
+					reg_data[20] = '#';
+				  break;
+				
+				case 0xff38c7: 
+					reg_data[20] = 'O';
 				  break;
 				
 				default:
